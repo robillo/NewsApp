@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">My News App</string>
+
+    <string name="news_api_key">ba1089983d604f7aa5b80ba5def11245</string>
+    <string name="app_icon">App Icon</string>
+
+    <string name="no_internet">No internet connection</string>
+    <string name="your_headlines_header">Your Headlines</string>
+    <string name="news_image_view">News Image View</string>
+</resources>

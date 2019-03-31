@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#d32f2f</color>
+    <color name="colorPrimaryDark">#c62828</color>
+    <color name="colorAccent">#ffffff</color>
+
+    <!-- COMMON COLORS -->
+    <color name="transparent">#00ffffff</color>
+    <color name="separator">#1A000000</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+
+    <color name="grey">#9E9D9D</color>
+    <color name="dark_grey">#6D6767</color>
+    <color name="light_grey">#dddddd</color>
+
+</resources>
