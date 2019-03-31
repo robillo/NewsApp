@@ -7,4 +7,5 @@
     <string name="no_internet">No internet connection</string>
     <string name="your_headlines_header">Your Headlines</string>
     <string name="news_image_view">News Image View</string>
+    <string name="read_full_article_here">Read Full Article Here</string>
 </resources>

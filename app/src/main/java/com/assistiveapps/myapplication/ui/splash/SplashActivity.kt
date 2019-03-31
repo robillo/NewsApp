@@ -16,6 +16,7 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun setup() {
+        setStatusBarColor(R.color.almost_white)
         launchNewsListActivity()
     }
 

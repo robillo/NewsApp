@@ -15,10 +15,14 @@ import com.assistiveapps.myapplication.di.component.DaggerNewsListActivityCompon
 import com.assistiveapps.myapplication.ui.base.BaseActivity
 import com.assistiveapps.myapplication.ui.news_detail.NewsDetailActivity
 import com.assistiveapps.myapplication.ui.news_list.adapter.NewsAdapter
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_news_list.*
 import javax.inject.Inject
 
 class NewsListActivity : BaseActivity(), NewsAdapter.OnNewsClickedListener {
+
+    @Inject
+    lateinit var gson: Gson
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -92,7 +96,7 @@ class NewsListActivity : BaseActivity(), NewsAdapter.OnNewsClickedListener {
     }
 
     override fun onNewsClicked(news: News) {
-        startActivity(NewsDetailActivity.newIntent(this))
+        startActivity(NewsDetailActivity.newIntent(this, gson.toJson(news)))
         animateActivityTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
 }

@@ -33,7 +33,7 @@ class NewsApp : Application() {
         Timber.plant(Timber.DebugTree())
 
         CalligraphyConfig.initDefault(CalligraphyConfig.Builder()
-            .setDefaultFontPath("fonts/Lato.ttf")
+            .setDefaultFontPath("fonts/my_libertine.ttf")
             .setFontAttrId(R.attr.fontPath)
             .build())
 

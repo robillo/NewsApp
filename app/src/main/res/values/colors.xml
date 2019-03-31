@@ -10,9 +10,10 @@
 
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
+    <color name="almost_white">#E4E4E4</color>
 
     <color name="grey">#9E9D9D</color>
     <color name="dark_grey">#6D6767</color>
+    <color name="darker_grey">#3F3B3B</color>
     <color name="light_grey">#dddddd</color>
-
 </resources>
