@@ -1,9 +1,9 @@
 package com.assistiveapps.myapplication.ui.news_list
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.assistiveapps.myapplication.data.model.Error
 import com.assistiveapps.myapplication.data.model.News
 import com.assistiveapps.myapplication.data.network.NewsRepository
 import com.assistiveapps.myapplication.util.Constants

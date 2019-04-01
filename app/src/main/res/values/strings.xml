@@ -8,4 +8,7 @@
     <string name="your_headlines_header">Your Headlines</string>
     <string name="news_image_view">News Image View</string>
     <string name="read_full_article_here">Read Full Article Here</string>
+    <string name="retry">Retry</string>
+    <string name="some_error_occurred">Some error occurred.</string>
+    <string name="nothing_to_show">Nothing To Show</string>
 </resources>

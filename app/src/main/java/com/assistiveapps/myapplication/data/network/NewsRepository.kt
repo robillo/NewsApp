@@ -1,23 +1,20 @@
 package com.assistiveapps.myapplication.data.network
-import android.util.Log
-import com.assistiveapps.myapplication.data.model.Error
 import com.assistiveapps.myapplication.data.model.News
 import com.assistiveapps.myapplication.data.model.NewsResult
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.assistiveapps.myapplication.util.ApiCallback
+import com.assistiveapps.myapplication.util.Constants
 
 class NewsRepository(private val newsService: NewsService) {
 
     fun getNews(apiKey: String, getHeadlinesListener: GetHeadlinesListener) {
-        newsService.headlinesList("us", apiKey).enqueue(object : Callback<NewsResult> {
 
-            override fun onResponse(call: Call<NewsResult>, response: Response<NewsResult>) {
-                getHeadlinesListener.onHeadlinesReceived(response.body()?.articles)
+        newsService.headlinesList(Constants.COUNTRY, apiKey).enqueue(object : ApiCallback<NewsResult>() {
+            override fun success(response: NewsResult) {
+                getHeadlinesListener.onHeadlinesReceived(response.articles)
             }
 
-            override fun onFailure(call: Call<NewsResult>, t: Throwable) {
-                getHeadlinesListener.onHeadlinesFailure(Error("failed to fetch"))
+            override fun failure(error: Error) {
+                getHeadlinesListener.onHeadlinesFailure(error)
             }
         })
     }

@@ -2,8 +2,7 @@ package com.assistiveapps.myapplication.ui.news_list
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
-import android.widget.Toast
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -15,6 +14,7 @@ import com.assistiveapps.myapplication.di.component.DaggerNewsListActivityCompon
 import com.assistiveapps.myapplication.ui.base.BaseActivity
 import com.assistiveapps.myapplication.ui.news_detail.NewsDetailActivity
 import com.assistiveapps.myapplication.ui.news_list.adapter.NewsAdapter
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_news_list.*
 import javax.inject.Inject
@@ -70,18 +70,17 @@ class NewsListActivity : BaseActivity(), NewsAdapter.OnNewsClickedListener {
     }
 
     private fun getHeadlines() {
+        loadingProgressBar.visibility = View.VISIBLE
         newsListViewModel.getHeadlines()
     }
 
     private fun setObservers() {
         newsListViewModel.newsListLiveData.observe(this, Observer {
+            loadingProgressBar.visibility = View.GONE
             newsAdapter.submitList(it)
         })
         newsListViewModel.networkErrorLiveData.observe(this, Observer {
-            //TODO: already showing a toast, show error layout
-            //TODO: MAKE SNACKBAR PERSISTENT WITH ACTION
-            retryGettingHeadlines()
-            //TODO: dismiss
+            showErrorSnackBar()
         })
     }
 
@@ -98,5 +97,16 @@ class NewsListActivity : BaseActivity(), NewsAdapter.OnNewsClickedListener {
     override fun onNewsClicked(news: News) {
         startActivity(NewsDetailActivity.newIntent(this, gson.toJson(news)))
         animateActivityTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+    }
+
+    private fun showErrorSnackBar() {
+        failLayout.visibility = View.VISIBLE
+        loadingProgressBar.visibility = View.GONE
+        Snackbar.make(parentLayout, getString(R.string.some_error_occurred), Snackbar.LENGTH_INDEFINITE)
+            .setAction(getString(R.string.retry)) {
+                loadingProgressBar.visibility = View.VISIBLE
+                failLayout.visibility = View.GONE
+                retryGettingHeadlines()
+            }.show()
     }
 }

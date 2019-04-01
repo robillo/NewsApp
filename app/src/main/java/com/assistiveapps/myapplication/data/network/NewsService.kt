@@ -3,7 +3,6 @@ package com.assistiveapps.myapplication.data.network
 import com.assistiveapps.myapplication.data.model.NewsResult
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface NewsService {

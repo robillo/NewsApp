@@ -24,6 +24,7 @@ class NewsApp : Application() {
     }
 
     override fun onCreate() {
+        EventBus.getDefault().register(this)
         super.onCreate()
 
         setup()
@@ -40,8 +41,6 @@ class NewsApp : Application() {
         component = DaggerNewsAppComponent.builder()
             .contextModule(ContextModule(this))
             .build()
-
-        EventBus.getDefault().register(this)
     }
 
     fun newsAppComponent(): NewsAppComponent {

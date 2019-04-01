@@ -1,10 +1,10 @@
 package com.assistiveapps.myapplication.di.module
 
 import android.content.Context
+import android.util.Log
 import com.assistiveapps.myapplication.data.event.NoInternetEvent
 import com.assistiveapps.myapplication.data.exception.NoConnectivityException
 import com.assistiveapps.myapplication.di.qualifier.CacheInterceptor
-import com.assistiveapps.myapplication.di.qualifier.HeaderInterceptor
 import com.assistiveapps.myapplication.di.qualifier.NetworkInterceptor
 import com.assistiveapps.myapplication.di.scope.NewsApplicationScope
 import com.assistiveapps.myapplication.util.NetworkUtil
@@ -31,26 +31,24 @@ class NetworkModule {
         private const val MAX_AGE: Int = 0
         private const val CACHE_SIZE: Long = 10 * 1000 * 1000 //10 MB CACHE
         private const val CACHE_CONTROL = "Cache-Control"
+        private const val PRAGMA = "Pragma"
     }
 
     @Provides
     @NewsApplicationScope
-    fun okHttpClient(@HeaderInterceptor customInterceptor: Interceptor,
-                     @NetworkInterceptor networkInterceptor: Interceptor,
+    fun okHttpClient(@NetworkInterceptor networkInterceptor: Interceptor,
                      @CacheInterceptor cacheInterceptor: Interceptor,
                      loggingInterceptor: HttpLoggingInterceptor,
-                     cache: Cache
-    ): OkHttpClient {
+                     cache: Cache): OkHttpClient {
         return OkHttpClient.Builder()
-            .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
-            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
-            .addInterceptor(customInterceptor)
-            .addInterceptor(networkInterceptor)
-            .addInterceptor(loggingInterceptor)
-            .addNetworkInterceptor(cacheInterceptor)
-            .cache(cache)
-            .build()
+                .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+                .addInterceptor(networkInterceptor)
+                .addInterceptor(loggingInterceptor)
+                .addNetworkInterceptor(cacheInterceptor)
+                .cache(cache)
+                .build()
     }
 
     @Provides
@@ -72,16 +70,7 @@ class NetworkModule {
     @Provides
     @NewsApplicationScope
     fun file(context: Context): File {
-        return File(context.cacheDir, "okhttp-cache")
-    }
-
-    @Provides
-    @NewsApplicationScope
-    @HeaderInterceptor
-    fun customInterceptor(): Interceptor {
-        return Interceptor { chain ->
-            chain.proceed(chain.request().newBuilder().build())
-        }
+        return File(context.cacheDir, "okhttp-cache-news")
     }
 
     @Provides
@@ -91,8 +80,11 @@ class NetworkModule {
         return Interceptor { chain ->
             var request = chain.request()
             if (!networkUtil.isOnline()) {
-                EventBus.getDefault().post(NoInternetEvent())
-                request = request.newBuilder().cacheControl(cacheControl).build()
+                request = request.newBuilder()
+                    .cacheControl(cacheControl)
+                    .header(CACHE_CONTROL, "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7)
+                    .removeHeader(PRAGMA)
+                    .build()
                 val response = chain.proceed(request)
                 if (response.cacheResponse() == null)
                     throw NoConnectivityException()
@@ -116,10 +108,15 @@ class NetworkModule {
     fun cacheInterceptor(cacheControl: CacheControl): Interceptor {
         return Interceptor { chain ->
             var request = chain.request()
+
             request = request.newBuilder()
-                .header(CACHE_CONTROL, cacheControl.toString())
+                .cacheControl(cacheControl)
+                .header(CACHE_CONTROL, "public, only-if-cached")
+                .removeHeader(PRAGMA)
                 .build()
+
             return@Interceptor chain.proceed(request)
         }
     }
+
 }

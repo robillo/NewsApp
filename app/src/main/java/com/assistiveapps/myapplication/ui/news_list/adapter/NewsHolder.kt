@@ -2,6 +2,7 @@ package com.assistiveapps.myapplication.ui.news_list.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.assistiveapps.myapplication.R
 import com.assistiveapps.myapplication.data.model.News
 import com.assistiveapps.myapplication.util.StringUtils
 import com.squareup.picasso.Picasso
@@ -24,6 +25,7 @@ class NewsHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
         Picasso.get()
                 .load(news.articleImage)
+                .error(R.drawable.solid_drawable)
                 .into(itemView.newsImageView)
     }
 

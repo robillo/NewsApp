@@ -1,11 +1,9 @@
 package com.assistiveapps.myapplication.util
 
 import com.assistiveapps.myapplication.data.exception.NoConnectivityException
-import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Response
 import timber.log.Timber
-import java.lang.Exception
 
 abstract class ApiCallback<T> : retrofit2.Callback<T> {
 
@@ -32,14 +30,7 @@ abstract class ApiCallback<T> : retrofit2.Callback<T> {
     }
 
     private fun createError(response: Response<T>) {
-        response.errorBody()?.let { errorBody ->
-            try {
-                val error = Gson().fromJson<Error>(errorBody.string(), Error::class.java)
-                failure(error)
-            } catch (e: Exception) {
-                failure(Error(e.localizedMessage))
-            }
-        } ?: run { failure(Error()) }
+        failure(Error())
     }
 
     abstract fun success(response: T)

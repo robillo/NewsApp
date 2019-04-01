@@ -94,7 +94,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
             android:textSize="18sp"
             tools:text="Suspect arrested in South Carolina university student's death - ABC15 Arizona Suspect arrested in South Carolina university student's death - ABC15 Arizona Suspect arrested in South Carolina university student's death - ABC15 Arizona Suspect arrested in South Carolina university student's death - ABC15 Arizona Suspect arrested in South Carolina university student's death - ABC15 Arizona Suspect arrested in South Carolina university student's death - ABC15 Arizona Suspect arrested in South Carolina university student's death - ABC15 Arizona Suspect arrested in South Carolina university student's death - ABC15 Arizona"
@@ -113,7 +113,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/contentTextView"
             app:cardCornerRadius="23dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             app:cardBackgroundColor="@color/colorPrimary">
 
             <TextView
